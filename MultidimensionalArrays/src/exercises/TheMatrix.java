@@ -1,8 +1,6 @@
 package exercises;
 
-import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.Scanner;
 
 public class TheMatrix {
@@ -32,27 +30,38 @@ public class TheMatrix {
         int startCol = startingCoordinates[1];
         char startChar = matrix[startRow][startCol];
 
-        Deque<Integer> rowPath = new ArrayDeque<>();
-        Deque<Integer> colPath = new ArrayDeque<>();
-        rowPath.push(startRow);
-        colPath.push(startCol);
-        boolean finished = false;
-        while (!finished) {
-            int currentRow = rowPath.pop();
-            int currentCol = colPath.pop();
-            int up = currentRow - 1;
-            int left = currentCol - 1;
-            if (up >= 0 && matrix[up][currentCol] == startChar && up != rowPath.peek()) {
-                rowPath.push(currentRow);
-                colPath.push(currentCol);
-                rowPath.push(up);
-                colPath.push(currentCol);
-            } else if (left >= 0 && matrix[currentRow][left] == startChar && up != rowPath.peek()) {
-                rowPath.push(currentRow);
-                colPath.push(currentCol);
-                rowPath.push(currentRow);
-                colPath.push(left);
-            } else if ()
+        replaceCharInMatrix(matrix, startRow, startCol, fillChar, startChar);
+
+        for (Character[] row : matrix) {
+            for (Character character : row) {
+                System.out.print(character);
+            }
+
+            System.out.println();
+        }
+    }
+
+    private static void replaceCharInMatrix(Character[][] matrix, int row, int col, char fillChar, char startChar) {
+        if (matrix[row][col] != startChar) {
+            return;
+        }
+
+        matrix[row][col] = fillChar;
+
+        if (row + 1 < matrix.length) {
+            replaceCharInMatrix(matrix, row + 1, col, fillChar, startChar);
+        }
+
+        if (row - 1 >= 0) {
+            replaceCharInMatrix(matrix, row - 1, col, fillChar, startChar);
+        }
+
+        if (col + 1 < matrix[row].length) {
+            replaceCharInMatrix(matrix, row, col + 1, fillChar, startChar);
+        }
+
+        if (col - 1 >= 0) {
+            replaceCharInMatrix(matrix, row, col - 1, fillChar, startChar);
         }
     }
 }
